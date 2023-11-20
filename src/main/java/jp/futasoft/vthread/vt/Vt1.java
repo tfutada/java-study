@@ -5,7 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
 import static java.lang.Thread.sleep;
@@ -23,16 +27,26 @@ public class Vt1 {
     static void runMyTasks() {
 
         var factory = Thread.ofVirtual().name("routine-", 0).factory();
-
         try (var executor = Executors.newThreadPerTaskExecutor(factory)) {
 
-            var future = executor.submit(() -> {
-                log.info("I'm going to take a bath");
-                sleep(Duration.ofSeconds(3L));
-                log.info("I'm done with the bath");
-            });
+            List<Future<Integer>> futures = new ArrayList<>();
 
-            future.get();
+            for (int i = 0; i < 10; i++) {
+                int finalI = i;
+                Future<Integer> future = executor.submit(() -> {
+                    sleep(Duration.ofSeconds(5));
+                    log.info("!!! done task #{}", finalI);
+                    return finalI;
+                });
+                futures.add(future);
+            }
+
+            log.info("!!! submitted all tasks");
+
+            // Wait for all tasks to complete
+            for (var future : futures) {
+                log.info(String.valueOf(future.get()));
+            }
         }
     }
 
