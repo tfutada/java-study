@@ -5,6 +5,15 @@ import java.util.concurrent.CompletableFuture;
 public class Sample {
     // heavy task to be offloaded to another thread
     public static int compute(int n) {
+        try {
+            // Sleep for a specified amount of time
+            // For example, 2000 milliseconds (2 seconds)
+            Thread.sleep(3_000);
+        } catch (InterruptedException e) {
+            // Handle the interruption exception
+            e.printStackTrace();
+        }
+
         return n * 2;
     }
 
@@ -21,6 +30,7 @@ public class Sample {
     public static void main(String[] args) {
         var job = create(4)
                 .thenApply(data -> {
+                    System.out.println(Thread.currentThread());
                     return data + 1;
                 })
                 .thenAccept(System.out::println)
@@ -29,8 +39,15 @@ public class Sample {
                 })
                 .thenRun(() -> System.out.println("Done!"));
 
-
-        job.join(); // This will block until the CompletableFuture is complete.
+        job.join();
+        try {
+            // Sleep for a specified amount of time
+            // For example, 2000 milliseconds (2 seconds)
+            Thread.sleep(30_000);
+        } catch (InterruptedException e) {
+            // Handle the interruption exception
+            e.printStackTrace();
+        }
 
         System.out.println("Done!!!");
     }
