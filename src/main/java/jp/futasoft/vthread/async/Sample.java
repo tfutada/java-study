@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 public class Sample {
     // heavy task to be offloaded to another thread
     public static int compute(int n) {
+        System.out.println(Thread.currentThread()); // fork-join pool thread
         return n * 2;
     }
 
@@ -20,11 +21,15 @@ public class Sample {
 
     public static void main(String[] args) {
         var job = create(4)
-                .thenApply(data -> data + 1)
+                .thenApply(data -> {
+                    System.out.println(Thread.currentThread()); // main thread
+                    return +1;
+                })
                 .thenAccept(System.out::println);
 
         job.join(); // This will block until the CompletableFuture is complete.
 
         System.out.println("Done!!!");
+        System.out.println(Thread.currentThread());
     }
 }
