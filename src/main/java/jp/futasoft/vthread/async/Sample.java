@@ -1,6 +1,7 @@
 package jp.futasoft.vthread.async;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 
 public class Sample {
     // heavy task to be offloaded to another thread
@@ -8,7 +9,7 @@ public class Sample {
         try {
             // Sleep for a specified amount of time
             // For example, 2000 milliseconds (2 seconds)
-            Thread.sleep(3_000);
+            Thread.sleep(5_000);
         } catch (InterruptedException e) {
             // Handle the interruption exception
             e.printStackTrace();
@@ -27,27 +28,32 @@ public class Sample {
         });
     }
 
+    //
     public static void main(String[] args) {
-        var job = create(4)
-                .thenApply(data -> {
-                    System.out.println(Thread.currentThread());
-                    return data + 1;
-                })
-                .thenAccept(System.out::println)
-                .thenAccept(data -> {
-                    System.out.println("data: " + data);
-                })
-                .thenRun(() -> System.out.println("Done!"));
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "1000");
 
-        job.join();
+        // create 10 threads with a loop
+        for (int i = 0; i < 1000; i++) {
+            // fire and forget
+            create(4)
+                    .thenApply(data -> {
+                        System.out.println(Thread.currentThread());
+                        return data + 1;
+                    })
+                    .thenAccept(System.out::println)
+                    .thenRun(() -> System.out.println("Done!"));
+        }
+
+        // Get the common ForkJoinPool and print the pool size
+        ForkJoinPool commonPool = ForkJoinPool.commonPool();
+        System.out.println("Common pool size: " + commonPool.getPoolSize());
+
         try {
-            // Sleep for a specified amount of time
-            // For example, 2000 milliseconds (2 seconds)
             Thread.sleep(30_000);
         } catch (InterruptedException e) {
-            // Handle the interruption exception
             e.printStackTrace();
         }
+
 
         System.out.println("Done!!!");
     }
