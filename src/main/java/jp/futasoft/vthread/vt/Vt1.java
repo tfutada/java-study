@@ -15,39 +15,29 @@ public class Vt1 {
     private static final Logger log = LoggerFactory.getLogger(Vt1.class);
 
     @SneakyThrows
-    static void concurrentMorningRoutineUsingExecutorsWithName() {
+    private static void sleep(Duration duration) {
+        Thread.sleep(duration);  // unmount
+    }
 
-        final ThreadFactory factory = Thread.ofVirtual().name("routine-", 0).factory();
+    @SneakyThrows
+    static void runMyTasks() {
+
+        var factory = Thread.ofVirtual().name("routine-", 0).factory();
 
         try (var executor = Executors.newThreadPerTaskExecutor(factory)) {
 
-            var bathTime = executor.submit(() -> {
+            var future = executor.submit(() -> {
                 log.info("I'm going to take a bath");
-                try {
-                    Thread.sleep(Duration.ofSeconds(3L)); // unmounted
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                sleep(Duration.ofSeconds(3L));
                 log.info("I'm done with the bath");
             });
 
-            var boilingWater = executor.submit(() -> {
-                log.info("I'm going to boil some water");
-                try {
-                    sleep(Duration.ofSeconds(5L));
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                log.info("I'm done with the water");
-            });
-
-            bathTime.get();
-            boilingWater.get();
+            future.get();
         }
     }
 
     //
     public static void main(String[] args) {
-        concurrentMorningRoutineUsingExecutorsWithName();
+        runMyTasks();
     }
 }
