@@ -21,6 +21,16 @@ public class Vt1 {
     @SneakyThrows
     private static void sleep(Duration duration) {
         Thread.sleep(duration);  // unmount
+        // calculate fibonacci
+//        fibonacciRecursive(47);
+        log.info("!!! sleep {} ms", duration.toMillis());
+    }
+
+    public static long fibonacciRecursive(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
     }
 
     @SneakyThrows
@@ -31,7 +41,7 @@ public class Vt1 {
 
             List<Future<Integer>> futures = new ArrayList<>();
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 20; i++) {
                 int finalI = i;
                 Future<Integer> future = executor.submit(() -> {
                     sleep(Duration.ofSeconds(5));
