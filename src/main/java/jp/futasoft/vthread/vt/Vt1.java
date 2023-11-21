@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.IntStream;
 
 import static java.lang.Thread.sleep;
@@ -16,6 +19,7 @@ import static java.lang.Thread.sleep;
 
 public class Vt1 {
     private static final Logger log = LoggerFactory.getLogger(Vt1.class);
+//    private static final Lock lock = new ReentrantLock();
 
     @SneakyThrows
     private static void myTask(Duration duration) {
