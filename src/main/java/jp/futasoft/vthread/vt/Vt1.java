@@ -7,10 +7,8 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
 import java.util.stream.IntStream;
 
 import static java.lang.Thread.sleep;
@@ -20,7 +18,7 @@ public class Vt1 {
     private static final Logger log = LoggerFactory.getLogger(Vt1.class);
 
     @SneakyThrows
-    private static void sleep(Duration duration) {
+    private static void myTask(Duration duration) {
         log.info("『  {} ", Thread.currentThread());
         Thread.sleep(duration);  // unmount
 //        fibonacciRecursive(47);
@@ -42,8 +40,9 @@ public class Vt1 {
             List<Future<Integer>> futures = new ArrayList<>();
 
             IntStream.range(0, 9).forEach(i -> {
+                // Submit a task and get a Future
                 Future<Integer> future = executor.submit(() -> {
-                    sleep(Duration.ofSeconds(5));
+                    myTask(Duration.ofSeconds(5));
                     log.info("done task #{}", i);
                     return i;
                 });
