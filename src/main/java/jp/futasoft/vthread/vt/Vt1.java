@@ -40,7 +40,7 @@ public class Vt1 {
 
             List<Future<Integer>> futures = new ArrayList<>();
 
-            for (int i = 0; i < 1_000; i++) {
+            for (int i = 0; i < 10; i++) {
                 int finalI = i;
                 Future<Integer> future = executor.submit(() -> {
                     sleep(Duration.ofSeconds(5));
