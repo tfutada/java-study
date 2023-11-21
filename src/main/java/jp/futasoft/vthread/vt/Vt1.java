@@ -20,9 +20,10 @@ public class Vt1 {
 
     @SneakyThrows
     private static void sleep(Duration duration) {
+        log.info("『  {} ", Thread.currentThread());
         Thread.sleep(duration);  // unmount
 //        fibonacciRecursive(47);
-        log.info("!!! carrier thread is  {} ", Thread.currentThread());
+        log.info("』 {} ", Thread.currentThread());
     }
 
     public static long fibonacciRecursive(int n) {
@@ -35,29 +36,25 @@ public class Vt1 {
     @SneakyThrows
     static void runMyTasks() {
 
-        var factory = Thread.ofVirtual().name("routine-", 0).factory();
-        try (var executor = Executors.newThreadPerTaskExecutor(factory)) {
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 
             List<Future<Integer>> futures = new ArrayList<>();
 
-            for (int i = 0; i < 1_000_000; i++) {
+            for (int i = 0; i < 1_000; i++) {
                 int finalI = i;
                 Future<Integer> future = executor.submit(() -> {
-                    var ctx = 0;
-                    ctx += 1;
                     sleep(Duration.ofSeconds(5));
-                    log.info(" ctx is {}", ctx);
-                    log.info("!!! done task #{}", finalI);
+                    log.info("done task #{}", finalI);
                     return finalI;
                 });
                 futures.add(future);
             }
 
-            log.info("!!! submitted all tasks");
+            log.info("submitted all tasks");
 
             // Wait for all tasks to complete
             for (var future : futures) {
-                log.info(String.valueOf(future.get()));
+                log.info("result: {}", String.valueOf(future.get()));
             }
         }
     }
