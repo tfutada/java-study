@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
+import java.util.stream.IntStream;
 
 import static java.lang.Thread.sleep;
 
@@ -40,15 +41,14 @@ public class Vt1 {
 
             List<Future<Integer>> futures = new ArrayList<>();
 
-            for (int i = 0; i < 10; i++) {
-                int finalI = i;
+            IntStream.range(0, 9).forEach(i -> {
                 Future<Integer> future = executor.submit(() -> {
                     sleep(Duration.ofSeconds(5));
-                    log.info("done task #{}", finalI);
-                    return finalI;
+                    log.info("done task #{}", i);
+                    return i;
                 });
                 futures.add(future);
-            }
+            });
 
             log.info("submitted all tasks");
 
