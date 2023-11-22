@@ -7,6 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.Executors;
 
@@ -41,22 +45,22 @@ public class JavaSpringApplication {
     }
 }
 
-//@Controller
-//class HelloController {
-//    @RequestMapping("/")
-//    @ResponseBody
-//    String home() {
-//        return "Hello, Worlduuu";
-//    }
-//}
-//
-//@RestController
-//class HelloJsonController {
-//    @RequestMapping("/json")
-//    public Greeting home() {
-//        return new Greeting("Hello, Worlduuu");
-//    }
-//
-//    public record Greeting(String message) {
-//    }
-//}
+@Controller
+class HelloController {
+    @RequestMapping("/")
+    @ResponseBody
+    String home() {
+        return "Hello, Worlduuu";
+    }
+}
+
+@RestController
+class HelloJsonController {
+    @RequestMapping("/json")
+    public Greeting home() {
+        return new Greeting("Hello, Worlduuu");
+    }
+
+    public record Greeting(String message) {
+    }
+}
