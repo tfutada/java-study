@@ -19,11 +19,12 @@ import static java.lang.Thread.sleep;
 
 public class Vt1 {
     private static final Logger log = LoggerFactory.getLogger(Vt1.class);
-//    private static final Lock lock = new ReentrantLock();
+    //    private static final Lock lock = new ReentrantLock();
+    private static final ThreadLocal<String> context = new ThreadLocal<>();
 
     @SneakyThrows
     private static void myTask(Duration duration) {
-        log.info("『  {} ", Thread.currentThread());
+        log.info("『  {} : {} ", context.get(), Thread.currentThread());
         Thread.sleep(duration);  // unmount
 //        fibonacciRecursive(47);
         log.info("』 {} ", Thread.currentThread());
@@ -46,6 +47,7 @@ public class Vt1 {
             IntStream.range(0, 9).forEach(i -> {
                 // Submit a task and get a Future
                 Future<Integer> future = executor.submit(() -> {
+                    context.set("task-" + i);
                     myTask(Duration.ofSeconds(5));
                     log.info("done task #{}", i);
                     return i;
