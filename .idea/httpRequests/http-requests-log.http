@@ -1,4 +1,54 @@
 POST http://localhost:8080/photo
+Content-Type: application/json
+Content-Length: 46
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "12345",
+  "fileName": "photo.jpg"
+}
+
+<> 2023-11-23T152154.200.txt
+
+###
+
+GET http://localhost:8080/hello
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-23T152148.200.txt
+
+###
+
+POST http://localhost:8080/photo
+Content-Type: application/json
+Content-Length: 46
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "12345",
+  "fileName": "photo.jpg"
+}
+
+<> 2023-11-23T152028.200.txt
+
+###
+
+GET http://localhost:8080/hello
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-23T152005.200.txt
+
+###
+
+POST http://localhost:8080/photo
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 27
 Connection: Keep-Alive
