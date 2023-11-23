@@ -1,7 +1,7 @@
 package jp.futasoft.photoz;
 
 import jakarta.validation.Valid;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,15 +13,21 @@ class PhotozController {
 
     private List<Photo> photoList = new ArrayList<>();
 
-    public PhotozController() {
-        photoList.add(new Photo("1", "photo1.jpg"));
-        photoList.add(new Photo("2", "photo2.jpg"));
-        photoList.add(new Photo("3", "photo3.jpg"));
+    private final PhotozService photozService;
+
+    @Autowired
+    public PhotozController(PhotozService photozService, List<Photo> photoList) {
+        this.photozService = photozService;
+
+        this.photoList = photoList;
+        this.photoList.add(new Photo("1", "photo1.jpg"));
+        this.photoList.add(new Photo("2", "photo2.jpg"));
+        this.photoList.add(new Photo("3", "photo3.jpg"));
     }
 
     @RequestMapping("/hello")
     public String handle() {
-        return "Hello in PhotozController";
+        return photozService.processPhoto("1");
     }
 
     // a handler that takes a Photo as an arg.
