@@ -44,7 +44,9 @@ public class Vt1 {
 
             List<Future<Integer>> futures = new ArrayList<>();
 
-            IntStream.range(0, 9).forEach(i -> {
+            var numCore = Runtime.getRuntime().availableProcessors();
+
+            IntStream.range(0, numCore+1).forEach(i -> {
                 // Submit a task and get a Future
                 Future<Integer> future = executor.submit(() -> {
                     context.set("task-" + i);
