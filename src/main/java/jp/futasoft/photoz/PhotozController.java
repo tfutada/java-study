@@ -1,9 +1,6 @@
 package jp.futasoft.photoz;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +31,11 @@ class PhotozController {
     }
 
     // a handle that delete an object specified by id
-    @RequestMapping("/delete")
-    public String handleDelete(@ModelAttribute Photo photo) {
+    @RequestMapping("/delete/{id}")
+    public String handleDelete(@PathVariable String id) {
         // remove a photo from the list
-        photoList.removeIf(p -> p.getId().equals(photo.getId()));
-        return "Photo deleted: " + photo;
+        photoList.removeIf(p -> p.getId().equals(id));
+        return "Photo deleted: id=" + id;
     }
 
     // returns a list of Photo objects
