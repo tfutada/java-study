@@ -3,6 +3,48 @@ Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
 Accept-Encoding: br,deflate,gzip,x-gzip
 
+<> 2023-11-23T155017.200.json
+
+###
+
+DELETE http://localhost:8080/delete?id=1
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-23T155010.200.txt
+
+###
+
+GET http://localhost:8080/photos
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+<> 2023-11-23T154944.200.json
+
+###
+
+DELETE http://localhost:8080/delete
+Content-Type: application/json
+Content-Length: 19
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id": "12345"
+}
+
+<> 2023-11-23T154924.200.txt
+
+###
+
+GET http://localhost:8080/photos
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
 <> 2023-11-23T153420.200.json
 
 ###

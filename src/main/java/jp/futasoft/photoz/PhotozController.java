@@ -27,10 +27,18 @@ class PhotozController {
 
     // a handler that takes a Photo as an arg.
     @RequestMapping("/create")
-    public String handlePhoto(@RequestBody Photo photo) {
+    public String handleCreate(@RequestBody Photo photo) {
         // append a photo to the list
         photoList.add(photo);
         return "Photo created: " + photo;
+    }
+
+    // a handle that delete an object specified by id
+    @RequestMapping("/delete")
+    public String handleDelete(@ModelAttribute Photo photo) {
+        // remove a photo from the list
+        photoList.removeIf(p -> p.getId().equals(photo.getId()));
+        return "Photo deleted: " + photo;
     }
 
     // returns a list of Photo objects
