@@ -4,60 +4,49 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collection;
 
 @RestController
 class PhotozController {
 
-    private List<Photo> photoList = new ArrayList<>();
-
     private final PhotozService photozService;
 
     @Autowired
-    public PhotozController(PhotozService photozService, List<Photo> photoList) {
+    public PhotozController(PhotozService photozService) {
         this.photozService = photozService;
-
-        this.photoList = photoList;
-        this.photoList.add(new Photo("1", "photo1.jpg"));
-        this.photoList.add(new Photo("2", "photo2.jpg"));
-        this.photoList.add(new Photo("3", "photo3.jpg"));
-    }
-
-    @RequestMapping("/hello")
-    public String handle() {
-        return photozService.processPhoto("1");
+        // Initialize with some photos if necessary
+        this.photozService.save("1", new Photo("1", "photo1.jpg"));
+        this.photozService.save("2", new Photo("2", "photo2.jpg"));
+        this.photozService.save("3", new Photo("3", "photo3.jpg"));
     }
 
     // a handler that takes a Photo as an arg.
-    @RequestMapping("/create")
+    @PostMapping("/create") // POST should be used for creating resources
     public String handleCreate(@RequestBody @Valid Photo photo) {
-        // append a photo to the list
-        photoList.add(photo);
+        photozService.save(photo.getId(), photo);
         return "Photo created: " + photo;
     }
 
     // a handle that delete an object specified by id
-    @RequestMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}") // DELETE should be used for deleting resources
     public String handleDelete(@PathVariable String id) {
-        // remove a photo from the list
-        photoList.removeIf(p -> p.getId().equals(id));
-        return "Photo deleted: id=" + id;
+        Photo deletedPhoto = photozService.remove(id);
+        return deletedPhoto != null ? "Photo deleted: id=" + id : "Photo not found";
     }
 
     // returns a list of Photo objects
-    @RequestMapping("/photos")
-    public List<Photo> handlePhotos() {
-        return photoList;
+    @GetMapping("/photos") // GET should be used for retrieving resources
+    public Collection<Photo> handlePhotos() {
+        return photozService.get();
     }
 
     // get a photo by id
-    @RequestMapping("/photo/{id}")
+    @GetMapping("/photo/{id}") // GET should be used for retrieving resources
     public Photo handlePhoto(@PathVariable String id) {
-        return photoList.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new PhotoNotFoundException(id));
+        Photo photo = photozService.get(id);
+        if (photo == null) {
+            throw new PhotoNotFoundException("Photo not found with id: " + id);
+        }
+        return photo;
     }
 }
