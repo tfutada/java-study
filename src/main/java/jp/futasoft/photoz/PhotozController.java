@@ -5,17 +5,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @RestController
 class PhotozController {
 
-    private List<Photo> photoList = List.of(
-            new Photo("1", "photo1.jpg"),
-            new Photo("2", "photo2.jpg"),
-            new Photo("3", "photo3.jpg")
-    );
+    private List<Photo> photoList = new ArrayList<>();
+
+    public PhotozController() {
+        photoList.add(new Photo("1", "photo1.jpg"));
+        photoList.add(new Photo("2", "photo2.jpg"));
+        photoList.add(new Photo("3", "photo3.jpg"));
+    }
 
     @RequestMapping("/hello")
     public String handle() {
@@ -23,9 +26,11 @@ class PhotozController {
     }
 
     // a handler that takes a Photo as an arg.
-    @RequestMapping("/photo")
+    @RequestMapping("/create")
     public String handlePhoto(@RequestBody Photo photo) {
-        return "Got photo " + photo;
+        // append a photo to the list
+        photoList.add(photo);
+        return "Photo created: " + photo;
     }
 
     // returns a list of Photo objects
