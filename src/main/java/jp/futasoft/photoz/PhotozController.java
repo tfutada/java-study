@@ -44,11 +44,12 @@ class PhotozController {
         return photoList;
     }
 
-    @RequestMapping("/json")
-    public Greeting home() {
-        return new Greeting("Hello, Worlduuu");
-    }
-
-    public record Greeting(String message) {
+    // get a photo by id
+    @RequestMapping("/photo/{id}")
+    public Photo handlePhoto(@PathVariable String id) {
+        return photoList.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new PhotoNotFoundException(id));
     }
 }
