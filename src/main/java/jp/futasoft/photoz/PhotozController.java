@@ -45,7 +45,7 @@ class PhotozController {
     public Photo handlePhoto(@PathVariable String id) {
         Photo photo = photozService.get(id);
         if (photo == null) {
-            throw new PhotoNotFoundException("Photo not found with id: " + id);
+            throw new PhotoNotFoundException("! ! ! Photo not found with id : " + id);
         }
         return photo;
     }
