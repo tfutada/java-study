@@ -1,5 +1,6 @@
 package jp.futasoft.photoz;
 
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,12 @@ class PhotozController {
     @RequestMapping("/hello")
     public String handle() {
         return "Hello in PhotozController";
+    }
+
+    // a handler that takes a Photo as an arg.
+    @RequestMapping("/photo")
+    public String handlePhoto(@ModelAttribute Photo photo) {
+        return "Got photo " + photo;
     }
 
     @RequestMapping("/json")
