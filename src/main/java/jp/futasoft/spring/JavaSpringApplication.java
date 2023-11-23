@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.Executors;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class JavaSpringApplication {
     private static final Logger log = LoggerFactory.getLogger(JavaSpringApplication.class);
 
@@ -45,7 +45,7 @@ public class JavaSpringApplication {
     }
 }
 
-@Controller
+//@Controller
 class HelloController {
     @RequestMapping("/")
     @ResponseBody
@@ -54,13 +54,13 @@ class HelloController {
     }
 }
 
-@RestController
-class HelloJsonController {
-    @RequestMapping("/json")
-    public Greeting home() {
-        return new Greeting("Hello, Worlduuu");
-    }
-
-    public record Greeting(String message) {
-    }
-}
+//@RestController
+//class HelloJsonController {
+//    @RequestMapping("/json")
+//    public Greeting home() {
+//        return new Greeting("Hello, Worlduuu");
+//    }
+//
+//    public record Greeting(String message) {
+//    }
+//}
