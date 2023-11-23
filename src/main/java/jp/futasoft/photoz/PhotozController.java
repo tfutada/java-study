@@ -1,5 +1,7 @@
 package jp.futasoft.photoz;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ class PhotozController {
 
     // a handler that takes a Photo as an arg.
     @RequestMapping("/create")
-    public String handleCreate(@RequestBody Photo photo) {
+    public String handleCreate(@RequestBody @Valid Photo photo) {
         // append a photo to the list
         photoList.add(photo);
         return "Photo created: " + photo;
