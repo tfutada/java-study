@@ -18,21 +18,23 @@ class PhotozController {
     public PhotozController(PhotozService photozService) {
         this.photozService = photozService;
         // Initialize with some photos if necessary
-        this.photozService.save("1", new Photo("1", "photo1.jpg"));
-        this.photozService.save("2", new Photo("2", "photo2.jpg"));
-        this.photozService.save("3", new Photo("3", "photo3.jpg"));
+        if (photozService.get().isEmpty()) {
+            photozService.save(Photo.builder().id(1L).fileName("photo1.jpg").build());
+            photozService.save(Photo.builder().id(2L).fileName("photo2.jpg").build());
+            photozService.save(Photo.builder().id(3L).fileName("photo3.jpg").build());
+        }
     }
 
     // a handler that takes a Photo as an arg.
     @PostMapping("/create") // POST should be used for creating resources
     public String handleCreate(@RequestBody @Valid Photo photo) {
-        photozService.save(photo.getId(), photo);
+        photozService.save(photo);
         return "Photo created: " + photo;
     }
 
     // a handle that delete an object specified by id
     @DeleteMapping("/delete/{id}") // DELETE should be used for deleting resources
-    public String handleDelete(@PathVariable String id) {
+    public String handleDelete(@PathVariable Long id) {
         Photo deletedPhoto = photozService.remove(id);
         return deletedPhoto != null ? "Photo deleted: id=" + id : "Photo not found";
     }
@@ -45,7 +47,7 @@ class PhotozController {
 
     // get a photo by id
     @GetMapping("/photo/{id}") // GET should be used for retrieving resources
-    public Photo handlePhoto(@PathVariable String id) {
+    public Photo handlePhoto(@PathVariable Long id) {
         Photo photo = photozService.get(id);
         if (photo == null) {
             throw new PhotoNotFoundException("! ! ! Photo not found with id : " + id);

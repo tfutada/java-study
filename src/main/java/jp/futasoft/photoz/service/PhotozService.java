@@ -1,33 +1,34 @@
 package jp.futasoft.photoz.service;
 
 import jp.futasoft.photoz.model.Photo;
+import jp.futasoft.photoz.repository.PhotozRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class PhotozService {
 
-    private final Map<String, Photo> db = new HashMap<String, Photo>() {{
-        put("1", new Photo("1", "hello.jpg"));
-    }};
+    @Autowired
+    private PhotozRepository photozRepository;
 
     public Collection<Photo> get() {
-        return db.values();
+        return photozRepository.findAll();
     }
 
-    public Photo get(String id) {
-        return db.get(id);
+    public Photo get(Long id) {
+        return photozRepository.findById(id).orElse(null);
     }
 
-    public Photo remove(String id) {
-        return db.remove(id);
+    public Photo remove(Long id) {
+        var photo = get(id);
+        photozRepository.delete(photo);
+        return photo;
     }
 
-    public void save(String id, Photo photo) {
-        db.put(id, photo);
+    public void save(Photo photo) {
+        photozRepository.save(photo);
     }
 }
