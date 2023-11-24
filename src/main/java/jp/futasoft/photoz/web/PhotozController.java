@@ -1,6 +1,9 @@
-package jp.futasoft.photoz;
+package jp.futasoft.photoz.web;
 
 import jakarta.validation.Valid;
+import jp.futasoft.photoz.PhotoNotFoundException;
+import jp.futasoft.photoz.model.Photo;
+import jp.futasoft.photoz.service.PhotozService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package jp.futasoft.photoz;
+package jp.futasoft.photoz.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

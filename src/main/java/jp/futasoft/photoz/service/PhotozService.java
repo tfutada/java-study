@@ -1,5 +1,6 @@
-package jp.futasoft.photoz;
+package jp.futasoft.photoz.service;
 
+import jp.futasoft.photoz.model.Photo;
 import org.springframework.stereotype.Service;
 
 
