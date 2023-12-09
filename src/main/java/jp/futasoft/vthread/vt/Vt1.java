@@ -3,7 +3,13 @@ package jp.futasoft.vthread.vt;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +23,7 @@ import java.util.stream.IntStream;
 import static java.lang.Thread.sleep;
 
 
+@SpringBootApplication
 public class Vt1 {
     private static final Logger log = LoggerFactory.getLogger(Vt1.class);
     //    private static final Lock lock = new ReentrantLock();
@@ -25,16 +32,28 @@ public class Vt1 {
     @SneakyThrows
     private static void myTask(Duration duration) {
         log.info("『  {} : {} ", context.get(), Thread.currentThread());
-        Thread.sleep(duration);  // unmount
+//        Thread.sleep(duration);  // unmount
 //        fibonacciRecursive(47);
+        httpClient();
         log.info("』 {} ", Thread.currentThread());
     }
 
-    public static long fibonacciRecursive(int n) {
+    private static long fibonacciRecursive(int n) {
         if (n <= 1) {
             return n;
         }
         return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+    }
+
+    @SneakyThrows
+    private static void httpClient() {
+        var client = HttpClient.newHttpClient();
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create("https://pokeapi.co/api/v2/pokemon/ditto"))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        log.info("Status Code: {}", response.statusCode());
     }
 
     @SneakyThrows
@@ -46,7 +65,7 @@ public class Vt1 {
 
             var numCore = Runtime.getRuntime().availableProcessors();
 
-            IntStream.range(0, numCore+1).forEach(i -> {
+            IntStream.range(0, numCore + 1).forEach(i -> {
                 // Submit a task and get a Future
                 Future<Integer> future = executor.submit(() -> {
                     context.set("task-" + i);
