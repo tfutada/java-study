@@ -23,7 +23,7 @@ import java.util.stream.IntStream;
 import static java.lang.Thread.sleep;
 
 
-@SpringBootApplication
+//@SpringBootApplication
 public class Vt1 {
     private static final Logger log = LoggerFactory.getLogger(Vt1.class);
     //    private static final Lock lock = new ReentrantLock();
